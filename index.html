@@ -1,0 +1,128 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+  <meta name="theme-color" content="#080b0a">
+  <meta name="description" content="TRADE//45 mobile day trading dashboard">
+  <link rel="manifest" href="./manifest.webmanifest">
+  <link rel="icon" href="./assets/icon.svg" type="image/svg+xml">
+  <link rel="apple-touch-icon" href="./assets/icon-192.png">
+  <link rel="stylesheet" href="./styles.css">
+  <title>TRADE//45</title>
+</head>
+<body>
+  <div class="app-shell">
+    <header class="topbar">
+      <a class="brand" href="#" aria-label="Trade 45 home"><span class="brand-mark">T</span><span>TRADE<span class="slash">//</span>45</span></a>
+      <div class="top-actions">
+        <span class="market-pill"><i></i> MARKET SIM</span>
+        <button class="icon-btn" id="settings-open" aria-label="Open settings">⚙</button>
+      </div>
+    </header>
+
+    <main>
+      <section class="page active" id="page-dashboard">
+        <div class="welcome-row">
+          <div><p class="eyebrow">MONDAY — MARKET OVERVIEW</p><h1>Good trading.<br><span>Stay disciplined.</span></h1></div>
+          <div class="avatar">45</div>
+        </div>
+        <div class="hero-card">
+          <div class="card-top"><span class="muted">TOTAL ACCOUNT VALUE</span><span class="live-dot">PAPER ACCOUNT</span></div>
+          <div class="balance" id="total-equity">$25,000.00</div>
+          <div class="gain-line"><strong id="total-pl">+$0.00</strong><span id="total-pl-pct">0.00%</span><span class="muted">all time</span></div>
+          <div class="mini-chart"><svg id="equity-spark" viewBox="0 0 320 68" preserveAspectRatio="none" aria-label="Account value trend"></svg></div>
+          <div class="hero-bottom"><span>Cash <b id="cash-value">$25,000.00</b></span><span>Buying power <b id="buying-power">$25,000.00</b></span></div>
+        </div>
+        <div class="section-heading"><div><p class="eyebrow">MARKET PULSE</p><h2>Market snapshot</h2></div><span class="muted small">DEMO DATA</span></div>
+        <div class="market-grid" id="market-snapshot"></div>
+        <div class="section-heading"><div><p class="eyebrow">YOUR LIST</p><h2>Watchlist</h2></div><button class="text-btn" data-go="markets">View all ↗</button></div>
+        <div class="panel list-panel" id="dashboard-watchlist"></div>
+        <div class="notice"><span>ⓘ</span><p>Prices shown are simulated sample data, not live quotes. Use this app for education and practice.</p></div>
+      </section>
+
+      <section class="page" id="page-markets">
+        <div class="page-title"><p class="eyebrow">DISCOVER</p><h1>Markets</h1><p class="muted">Explore the demo market universe.</p></div>
+        <label class="searchbox"><span>⌕</span><input id="market-search" type="search" placeholder="Search ticker or company" autocomplete="off"></label>
+        <div class="chips" id="market-filters"><button class="chip selected" data-filter="all">All</button><button class="chip" data-filter="stocks">Stocks</button><button class="chip" data-filter="etfs">ETFs</button><button class="chip" data-filter="crypto">Crypto</button></div>
+        <div class="panel list-panel" id="markets-list"></div>
+      </section>
+
+      <section class="page" id="page-chart">
+        <div class="page-title"><p class="eyebrow">PRICE ACTION</p><h1>Charts</h1></div>
+        <div class="chart-symbol-row"><div><strong id="chart-symbol">AAPL</strong><span id="chart-name">Apple Inc.</span></div><div class="right"><strong id="chart-price">$192.50</strong><span id="chart-change" class="positive">+1.25%</span></div></div>
+        <div class="chips timeframe" id="timeframes"><button class="chip" data-time="1D">1D</button><button class="chip selected" data-time="1W">1W</button><button class="chip" data-time="1M">1M</button><button class="chip" data-time="3M">3M</button><button class="chip" data-time="1Y">1Y</button></div>
+        <div class="panel chart-panel"><div class="chart-legend"><span><i class="green-dot"></i> Price</span><span class="muted" id="chart-range">SIMULATED · 1 WEEK</span></div><canvas id="candle-chart" aria-label="Candlestick price chart"></canvas><div class="chart-axis"><span>09:30</span><span>12:00</span><span>16:00</span></div></div>
+        <div class="section-heading"><div><p class="eyebrow">QUICK ACTION</p><h2>Trade this symbol</h2></div></div>
+        <div class="trade-shortcuts"><button class="buy-btn" id="chart-buy">Buy <span>↗</span></button><button class="sell-btn" id="chart-sell">Sell <span>↘</span></button></div>
+        <div class="notice"><span>ⓘ</span><p>Chart candles are generated for demonstration. They are not exchange data or a trading signal.</p></div>
+      </section>
+
+      <section class="page" id="page-trade">
+        <div class="page-title"><p class="eyebrow">ORDER TICKET</p><h1>Trade</h1><p class="muted">Practice orders in your paper account.</p></div>
+        <div class="mode-switch"><button class="mode-option active" data-mode="paper">Paper trading</button><button class="mode-option" data-mode="live">Live connection</button></div>
+        <div id="live-warning" class="notice warning hidden"><span>!</span><p>Live trading is not connected. Add a secure backend and brokerage adapter before placing real orders. This app will not send real orders from GitHub Pages.</p></div>
+        <div class="panel order-panel">
+          <label class="field-label" for="order-symbol">Symbol</label>
+          <div class="symbol-input"><input id="order-symbol" value="AAPL" maxlength="12" autocapitalize="characters"><button id="use-chart-symbol">Use chart</button></div>
+          <div class="quote-row"><span class="muted">Indicative demo price</span><strong id="order-quote">$192.50</strong></div>
+          <label class="field-label" for="order-type">Order type</label>
+          <select id="order-type"><option value="market">Market (simulated)</option><option value="limit">Limit (simulated)</option></select>
+          <div id="limit-wrap" class="hidden"><label class="field-label" for="limit-price">Limit price ($)</label><input class="full-input" id="limit-price" type="number" min="0.01" step="0.01" placeholder="Enter limit price"></div>
+          <label class="field-label" for="order-qty">Quantity (shares)</label>
+          <input class="full-input" id="order-qty" type="number" min="0.001" step="0.001" value="1">
+          <div class="order-estimate"><span>Estimated order value</span><strong id="order-estimate">$192.50</strong></div>
+          <div class="trade-shortcuts"><button class="buy-btn" id="place-buy">Buy</button><button class="sell-btn" id="place-sell">Sell</button></div>
+          <p class="tiny muted">Fractional quantities are supported in this simulator. Fees, slippage, taxes and execution delays are not modeled.</p>
+        </div>
+        <div class="section-heading"><div><p class="eyebrow">ACCOUNT</p><h2>Available funds</h2></div></div>
+        <div class="panel funds-row"><span class="muted">Paper cash</span><strong id="trade-cash">$25,000.00</strong></div>
+      </section>
+
+      <section class="page" id="page-portfolio">
+        <div class="page-title"><p class="eyebrow">ACCOUNT OVERVIEW</p><h1>Portfolio</h1></div>
+        <div class="portfolio-stats"><div class="panel stat-card"><span class="muted">Equity</span><strong id="portfolio-equity">$25,000.00</strong></div><div class="panel stat-card"><span class="muted">Open P/L</span><strong id="portfolio-pl">$0.00</strong></div></div>
+        <div class="section-heading"><div><p class="eyebrow">POSITIONS</p><h2>Your holdings</h2></div></div>
+        <div class="panel list-panel" id="positions-list"></div>
+        <div class="section-heading"><div><p class="eyebrow">ALLOCATION</p><h2>Portfolio mix</h2></div></div>
+        <div class="panel allocation-panel"><div class="allocation-bar" id="allocation-bar"></div><div id="allocation-legend" class="allocation-legend"></div></div>
+      </section>
+
+      <section class="page" id="page-history">
+        <div class="page-title"><p class="eyebrow">ACTIVITY LOG</p><h1>History</h1><p class="muted">Your simulated order activity.</p></div>
+        <div class="history-summary"><div class="panel stat-card"><span class="muted">Orders</span><strong id="history-count">0</strong></div><div class="panel stat-card"><span class="muted">Realized P/L</span><strong id="realized-pl">$0.00</strong></div></div>
+        <div class="panel list-panel" id="history-list"></div>
+        <button class="outline-btn full" id="export-history">Export trade history CSV</button>
+      </section>
+
+      <section class="page" id="page-settings">
+        <div class="page-title"><p class="eyebrow">PREFERENCES</p><h1>Settings</h1></div>
+        <div class="panel settings-panel">
+          <div class="setting-row"><div><strong>Account mode</strong><p class="muted small">Choose paper or live connection view</p></div><select id="settings-mode"><option value="paper">Paper</option><option value="live">Live (not connected)</option></select></div>
+          <div class="setting-row"><div><strong>Starting paper balance</strong><p class="muted small">Reset the practice account</p></div><span>$25,000</span></div>
+          <button class="outline-btn full" id="reset-account">Reset paper account</button>
+        </div>
+        <div class="panel settings-panel">
+          <h3>Market data</h3><p class="muted small">This release uses locally generated demo prices. Connect a licensed market-data provider through your own backend for current quotes.</p>
+          <h3>Brokerage connection</h3><p class="muted small">Live orders require a supported broker, user authorization, secure server-side credential storage, risk checks and order confirmation. Never put API secrets in this app or a public repository.</p>
+        </div>
+        <div class="about-footer">TRADE//45 <span>VERSION 1.0.0</span><br><small>Built for learning. Trade responsibly.</small></div>
+      </section>
+    </main>
+
+    <nav class="bottom-nav" aria-label="Main navigation">
+      <button class="nav-item active" data-page="dashboard"><span>⌂</span><small>Home</small></button>
+      <button class="nav-item" data-page="markets"><span>◫</span><small>Markets</small></button>
+      <button class="nav-item trade-nav" data-page="trade"><span>＋</span><small>Trade</small></button>
+      <button class="nav-item" data-page="portfolio"><span>▥</span><small>Portfolio</small></button>
+      <button class="nav-item" data-page="history"><span>↺</span><small>History</small></button>
+    </nav>
+  </div>
+
+  <div class="toast" id="toast" role="status" aria-live="polite"></div>
+  <div class="modal-backdrop hidden" id="confirm-modal">
+    <div class="modal"><div class="modal-head"><span class="eyebrow">CONFIRM ORDER</span><button id="modal-close" class="icon-btn">✕</button></div><h2 id="confirm-title">Buy AAPL?</h2><p id="confirm-detail" class="muted"></p><div class="modal-actions"><button class="outline-btn" id="cancel-order">Cancel</button><button class="buy-btn" id="confirm-order">Confirm paper order</button></div></div>
+  </div>
+  <script src="./app.js"></script>
+</body>
+</html>
